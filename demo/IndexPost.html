@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Content/bootstrap-responsive.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <label class="control-label">Name</label><input type="text" id="name" name="name" value="" />
+        <label>Category</label><input type="text" id="category" name="category" value="" />
+        <label>Price</label><input type="text" id="price" name="price" value="" />
+        </br>
+        <input class="btn btn-primary" type="button" id="driver" value="Load Data" />
+    </div>
+    <script>
+        var product = {
+            Id: 1,
+            Name: "",
+            Category: "",
+            Price: ""
+        };
+        $(document).ready(function () {
+            $("#driver").click(function (event) {
+
+                product.Name = document.getElementById("name").value;
+                product.Category = document.getElementById("category").value;
+                product.Price = document.getElementById("price").value;
+                $.ajax({
+                    url: "/api/products",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(product),
+                    success: function (result) {
+                        alert(result);
+                    }
+                    });
+                });
+            });
+    </script>
+</body>
+</html>
+<link href="Content/bootstrap.min.css" rel="stylesheet" />

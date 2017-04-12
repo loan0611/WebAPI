@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="http://ajax.aspnetcdn.com/ajaqx/jQuery/jquery-2.0.3.min.js"></script>
+</head>
+<body>
+
+    <div>
+    <h2>All Products</h2>
+    <ul id="products" />
+    </div>
+    <div>
+        <h2>Search by ID</h2>
+        <input type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product" />
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            // Send an AJAX request
+            $.ajax({
+                url: 'api/products',
+                success: function (data) {
+                    $.each(data, function (key, item) {
+                        // Add a list item for the product.
+                        $('<li>', { text: formatItem(item) }).appendTo($('#products'));
+                    });
+                }
+            });
+        });
+
+    function formatItem(item) {
+      return item.Name + ': $' + item.Price;
+    }
+
+    function find() {
+        var id = $('#prodId').val();
+        $.ajax({
+            url: 'api/products' + '/' + id,
+            method: 'get',
+            success: function (data) {
+                $('#product').text(formatItem(data));
+            },
+            fail: function (err) {
+                $('#product').text('Error: ' + err);
+            }
+        });
+    }
+    </script>
+    <!--<div id="stage"></div>
+    <input type="button" id="driver" value="Load Data" />
+
+    <script>
+         $(document).ready(function () {
+             $("#driver").click(function (event) {
+                 $.ajax({
+                     url: 'api/products',
+                     success: function (jd) {
+                     $('#stage').html('<p> id: ' + jd.Id + '</p>');
+                     $('#stage').append('<p>Name : ' + jd.Name + '</p>');
+                     $('#stage').append('<p> Category: ' + jd.Category + '</p>');
+                 }});
+        });
+     });
+    </script>-->
+
+</body>
+</html>
