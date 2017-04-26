@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    function goHome(vehicle, callback) {
+        alert("I'm going home by " + vehicle);
+        callback("Naruto", haveLaunch);
+    }
+
+    function playGame(gameName, cb) {
+        alert("I'm playing game " + gameName);
+        cb("rice",I)
+    }
+
+    function haveLaunch(food,cb_1) {
+        alert("I have a launch with " + food)
+        cb_1("Sleep")
+    }
+    function I(sleep)
+    {
+        alert("I "+sleep)
+    }
+    goHome("bicycle", playGame);
+</script>

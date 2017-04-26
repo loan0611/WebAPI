@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Web.Http;
 
 namespace demo.Controllers
@@ -12,19 +13,19 @@ namespace demo.Controllers
     {
         Product[] products = new Product[]
         {
-            new Product { Id = 1, Name = "Tomato Soup", Category = "Groceries", Price = "1" },
-            new Product { Id = 2, Name = "Yo-yo", Category = "Toys", Price = "6" },
-            new Product { Id = 3, Name = "Milk", Category = "Hardware", Price = "16" }
+            new Product { Id = 1, Name = "Tomato Soup", CategoryId = 2, Price = "1" },
+            new Product { Id = 2, Name = "Yo-yo", CategoryId = 1, Price = "6" },
+            new Product { Id = 3, Name = "Milk", CategoryId = 1, Price = "16" }
         };
 
         public IEnumerable<Product> GetAllProducts()
         {
             return products;
         }
-
-        public IHttpActionResult GetProduct(int id)
+        [Route("api/getproductbycategory/{categoryid}")]
+        public IHttpActionResult GetProductByCategory(int categoryId)
         {
-            var product = products.FirstOrDefault((p) => p.Id == id);
+            var product = products.Where(products => products.CategoryId == categoryId);
             if (product == null)
             {
                 return NotFound();
@@ -32,9 +33,9 @@ namespace demo.Controllers
             return Ok(product);
         }
         [HttpPost]
-        public string PostProduct(Product product)
+        public IHttpActionResult PostProduct(Product product)
         {
-            return String.Format("{0} {1} {2} {3}", product.Id, product.Name, product.Category, product.Price);
+            return Ok(product);
         }
 
     }

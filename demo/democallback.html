@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+    <script src="Content/JavaScript.js"></script>
+</head>
+<body>
+    <!--<input class="btn btn-primary" type="button" id="driver" value="Load Data" />
+    <div id="stage"></div>-->
+    <div id="stage"></div>
+</body>
+</html>
+<script>
+    var _categoryid;
+    var _products = [];
+    function getFoodProduct(categoryid)
+    {
+        $.ajax({
+            url: 'api/getproductbycategory' + '/' + categoryid,
+            method: 'get',
+            success: function (data) {
+                $.each(data, function (i, item) {
+                    $('#stage').append('<p> Id: ' + item.Id + '</p>');
+                    $('#stage').append('<p>Name : ' + item.Name + '</p>');
+                    $('#stage').append('<p> CategoryId: ' + item.CategoryId + '</p>');
+                    $('#stage').append('<p> Price: ' + item.Price + '</p>');
+                });
+                },
+                error: function (err) {
+                    alert("Error: " + err.responseText);
+                }
+        });
+    }
+    function getFood(IdCategory, cb1)
+    {
+        $.ajax({
+            url: 'api/category' + '/' + IdCategory,
+            method: 'get',
+            success: function(data)
+            {
+                cb1(data.Id)
+            }
+         });
+    }
+
+    getFood(1, getFoodProduct);
+</script>

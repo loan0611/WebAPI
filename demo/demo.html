@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <title>Creating a simple to-do application - Part 1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="Content/css.css" rel="stylesheet" />
+    <script src="Content/jquery.validate.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script type="text/javascript">
+         
+		function ConvertFormToJSON(form){
+			var array = jQuery(form).serializeArray();
+			var json = {};
+
+			jQuery.each(array, function() {
+				json[this.name] = this.value || '';
+			});
+
+			return json;
+		}
+
+		jQuery(document).on('ready', function() {
+			jQuery('form#add-new-task').bind('submit', function(event){
+				event.preventDefault();
+
+				var form = this;
+				var json = ConvertFormToJSON(form);
+				var tbody = jQuery('#to-do-list > tbody');
+
+				$.ajax({
+					type: "POST",
+					url: "",
+					data: json,
+					dataType: "json"
+				}).always(function() {
+					tbody.append('<tr><th scope="row" style="background-color:' + form['new-task-color'].value +
+						'"><input type="checkbox" /></th><td>' + form['new-task-date'].value +
+						'</td><td>' + form['new-task-priority'].value + '</td><td>' + form['new-task-name'].value +
+						'</td><td>' + form['new-task-desc'].value + '</td><td>' + form['new-task-email'].value + '</td></tr>');
+				}).fail(function() {
+					alert("Failed to add to-do");
+				});
+
+				return true;
+			});
+		});
+    </script>
+</head>
+<body>
+    <div id="page">
+        <header id="banner">
+            <hgroup>
+                <h1>Demo</h1>
+            </hgroup>
+        </header>
+        <section id="content">     
+            <article id="to-do">
+                <section class="new-to-do">
+                    <header>
+                        <h2>Add a new task</h2>
+</header>
+                    <form id="add-new-task">
+                        <label for="new-task-name">Name:</label>
+                        <input id="new-task-name" name="new-task-name" type="text" required>
+                        <label for="new-task-date">Date:</label>
+                        <input id="new-task-date" name="new-task-date" type="datetime" required>
+                        <br />
+                        <label for="new-task-priority">Fresh:</label>
+                        <input id="new-task-priority" name="new-task-priority" type="number" required >
+                        <label for="new-task-color">Color:</label>
+                        <input id="new-task-color" name="new-task-color" type="color">
+                        <br />
+                        <label for="new-task-desc">Description:</label>
+                        <input id="new-task-desc" name="new-task-desc" type="text">
+                        <br />
+                        <label for="new-task-email">Email:</label>
+                        <input id="new-task-email" name="new-task-email" type="email" multiple>
+                        <br />
+                        <input type="submit" value="Add new">
+                    </form>
+                </section>
+                <section>
+                    <header>
+                        <h2>To Do list</h2>
+                    </header>
+                    <table id="to-do-list">
+                        <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th scope="col"></th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Fresh</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Description</th>
+                                <th scope="col">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </section>
+            </article>
+        </section>
+    </div>
+</body>
+</html>

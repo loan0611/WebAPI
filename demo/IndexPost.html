@@ -9,22 +9,25 @@
 </head>
 <body>
     <div>
+        <label class="control-label">Id</label><input type="text" id="id" name="id" value="" />
         <label class="control-label">Name</label><input type="text" id="name" name="name" value="" />
         <label>Category</label><input type="text" id="category" name="category" value="" />
         <label>Price</label><input type="text" id="price" name="price" value="" />
         </br>
         <input class="btn btn-primary" type="button" id="driver" value="Load Data" />
+        <div id="stage"></div>
     </div>
     <script>
         var product = {
-            Id: 1,
+            Id:1,
             Name: "",
             Category: "",
             Price: ""
         };
         $(document).ready(function () {
             $("#driver").click(function (event) {
-
+                var id = 0;
+                product.Id = document.getElementById("id").value;
                 product.Name = document.getElementById("name").value;
                 product.Category = document.getElementById("category").value;
                 product.Price = document.getElementById("price").value;
@@ -34,11 +37,18 @@
                     contentType: "application/json",
                     data: JSON.stringify(product),
                     success: function (result) {
-                        alert(result);
+                        $('#stage').html('<p> id: ' + result.Id + '</p>');
+                        $('#stage').append('<p>Name : ' + result.Name + '</p>');
+                        $('#stage').append('<p> Category: ' + result.Category + '</p>');
+                        $('#stage').append('<p> Price: ' + result.Price + '</p>');
+                        alert(result);  
+
                     }
                     });
                 });
-            });
+        });
+
+
     </script>
 </body>
 </html>

@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+
+</body>
+</html>
+<script>
+    var promise = new Promise(function (resolve, reject) {
+        reject('Error!');
+    });
+    promise.then(
+    function (success) {
+        console.log(success);
+    },
+    function (error) {
+        console.log(error);
+    }
+    );
+    //var promise = new Promise(function (resolve, reject) {
+    //    reject('Error!');
+    //});
+
+    //promise.then(
+    //    function (success) {
+    //        console.log(success);
+    //    },
+    //    function (error) {
+    //        console.log(error);
+    //    }
+    //);
+</script>
